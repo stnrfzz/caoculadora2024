@@ -11,8 +11,9 @@ struct ContentView: View {
     @State var years: Int?
     @State var months: Int?
     @State var result: Int?
-    let portes = ["Pequeno","Medio","Grande"]
     @State var porte = "Pequeno"
+    @State var porteSelecionado = Portes.pequeno
+     
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -30,8 +31,8 @@ struct ContentView: View {
             Divider()
             Text("Porte").bold()
             
-            Picker("Portes", selection: $porte) {
-                ForEach(portes, id: \.self) { porte in Text(porte)}
+            Picker("Portes", selection: $porteSelecionado) {
+                ForEach(Portes.allCases, id: \.self) { porte in Text(porte.rawValue.capitalized)}
             }.pickerStyle(.segmented)
             Spacer()
             if let result { Text("Seu cachorro tem, em idade humana...")
@@ -67,18 +68,23 @@ struct ContentView: View {
         
         let multiplicador: Int
         
-        switch porte {
-        case "Pequeno":
+        switch porteSelecionado {
+        case .pequeno:
             multiplicador = 6
-        case "Medio":
+        case .medio:
             multiplicador = 7
-        case "Grande":
+        case .grande:
             multiplicador = 8
-        default:
-            multiplicador = 0
-        }
+        } 
         result = years * multiplicador + months * multiplicador / 12
     }
+    
+    enum Portes: String, CaseIterable {
+        case pequeno = "Pequeno"
+        case medio = "Médio"
+        case grande = "Grande"
+    }
+    
 }
 
 #Preview {
