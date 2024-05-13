@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
     @State var years: Int?
     @State var months: Int?
@@ -18,9 +19,9 @@ struct ContentView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
-            Text("Qual a idade do seu cão?").bold()
+            Text("Qual a idade do seu cão?").font(.header5)
             Spacer()
-            Text("Anos").bold()
+            Text("Anos").font(.body1)
             TextField("Quantos anos completos tem seu cão",
                 value: $years,
                 format: .number )
@@ -75,7 +76,7 @@ struct ContentView: View {
             multiplicador = 7
         case .grande:
             multiplicador = 8
-        } 
+        }
         result = years * multiplicador + months * multiplicador / 12
     }
     
