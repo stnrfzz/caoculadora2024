@@ -12,8 +12,9 @@ struct ContentView: View {
     @State var years: Int?
     @State var months: Int?
     @State var result: Int?
-    @State var porte = "Pequeno"
+    @State var failedInput = false
     @State var porteSelecionado = Portes.pequeno
+    let tituloPreencherCampos = "Preencha os campos para cãocular!"
      
     
     var body: some View {
@@ -39,10 +40,19 @@ struct ContentView: View {
                     }.pickerStyle(.segmented)
                     Spacer()
                     if let result { Text("Seu cachorro tem, em idade humana...")
-                        Text("\(result) anos ") }
+                            .font(.body)
+                            .frame(maxWidth: .infinity)
+                        Text("\(result) anos ")
+                            .font(.display)
+                            .frame(maxWidth: .infinity)
+                            .contentTransition(.numericText())}
                     else {
-                        Image(ImageResource.clarinha).resizable().scaledToFit().frame(maxHeight: 250)
-                        .frame(maxWidth: .infinity).shadow(radius: 50) }
+                        Image(ImageResource.clarinha)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxHeight: 250)
+                            .frame(maxWidth: .infinity)
+                            .shadow(radius: 50) }
                     Spacer()
                     Button("Cãocular", action: processYears)
                         .frame(maxWidth: .infinity)
@@ -56,10 +66,14 @@ struct ContentView: View {
                 .keyboardType(.numberPad)
                 .padding()
                 .containerRelativeFrame(.vertical)
+                .animation(.easeInOut.speed(0.6), value: result )
             }
+            .alert(tituloPreencherCampos, isPresented: $failedInput, actions: {
+                Button("OK", role: .cancel, action: {})
+            })
             .navigationTitle("Cãoculadora")
             .scrollDismissesKeyboard(.immediately)
-            .toolbarBackground(.indigo, for: .navigationBar)
+            .toolbarBackground(.indigo600, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
         }
@@ -70,6 +84,7 @@ struct ContentView: View {
         
         guard let years, let months else {
             print("campos nao preenchidos")
+            failedInput = true
             return
         }
         
@@ -77,10 +92,10 @@ struct ContentView: View {
             print("pelo menos um campo deve ser maior que zero")
             return
         }
-        
-        result = porteSelecionado.calcularIdade(aCaninos: years
-                                        , mCaninos: months)
-        
+        withAnimation(.easeInOut.speed(0.6)) {
+            result = porteSelecionado.calcularIdade(aCaninos: years
+                                                    , mCaninos: months)
+        }
     }
     
     enum Portes: String, CaseIterable {
