@@ -18,44 +18,52 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
-                Spacer()
-                Text("Qual a idade do seu cão?").font(.header5)
-                Spacer()
-                Text("Anos").font(.body1)
-                TextField("Quantos anos completos tem seu cão",
-                          value: $years,
-                          format: .number )
-                Text("Meses").bold()
-                TextField("E quantos meses alem disse ele tem",
-                          value: $months,
-                          format: .number)
-                Divider()
-                Text("Porte").bold()
-                
-                Picker("Portes", selection: $porteSelecionado) {
-                    ForEach(Portes.allCases, id: \.self) { porte in Text(porte.rawValue.capitalized)}
-                }.pickerStyle(.segmented)
-                Spacer()
-                if let result { Text("Seu cachorro tem, em idade humana...")
-                    Text("\(result) anos ") }
-                else {
-                    Image(ImageResource.clarinha).resizable().scaledToFit().frame(maxHeight: 250)
-                    .frame(maxWidth: .infinity).shadow(radius: 50) }
-                Spacer()
-                Button("Cãocular", action: processYears)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(.indigo)
-                    .foregroundStyle(.white)
-                    .clipShape(.rect(cornerRadius: 10))
-                Spacer()
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Spacer()
+                    Text("Qual a idade do seu cão?").font(.header5)
+                    Spacer()
+                    Text("Anos").font(.body1)
+                    TextField("Quantos anos completos tem seu cão",
+                              value: $years,
+                              format: .number )
+                    Text("Meses").bold()
+                    TextField("E quantos meses alem disse ele tem",
+                              value: $months,
+                              format: .number)
+                    Divider()
+                    Text("Porte").bold()
+                    
+                    Picker("Portes", selection: $porteSelecionado) {
+                        ForEach(Portes.allCases, id: \.self) { porte in Text(porte.rawValue.capitalized)}
+                    }.pickerStyle(.segmented)
+                    Spacer()
+                    if let result { Text("Seu cachorro tem, em idade humana...")
+                        Text("\(result) anos ") }
+                    else {
+                        Image(ImageResource.clarinha).resizable().scaledToFit().frame(maxHeight: 250)
+                        .frame(maxWidth: .infinity).shadow(radius: 50) }
+                    Spacer()
+                    Button("Cãocular", action: processYears)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(.indigo)
+                        .foregroundStyle(.white)
+                        .clipShape(.rect(cornerRadius: 10))
+                    Spacer()
+                }
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.numberPad)
+                .padding()
+                .containerRelativeFrame(.vertical)
             }
-            .textFieldStyle(.roundedBorder)
-            .keyboardType(.numberPad)
-            .padding()
             .navigationTitle("Cãoculadora")
+            .scrollDismissesKeyboard(.immediately)
+            .toolbarBackground(.indigo, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
         }
+        .fontDesign(.rounded)
     }
     func processYears() {
         print("cãocular")
