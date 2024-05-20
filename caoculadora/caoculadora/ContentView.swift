@@ -37,7 +37,7 @@ struct ContentView: View {
                     
                     Picker("Portes", selection: $porteSelecionado) {
                         ForEach(Portes.allCases, id: \.self) { porte in Text(porte.rawValue.capitalized)}
-                    }.pickerStyle(.segmented)
+                    }.pickerStyle(.menu)
                     Spacer()
                     if let result { Text("Seu cachorro tem, em idade humana...")
                             .font(.body)
